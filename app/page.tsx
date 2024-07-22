@@ -1,3 +1,9 @@
+import LoginFormContainer from '../containers/LoginFormContainer';
+
 export default function Home() {
-  return <>홈</>;
+  return (
+    <>
+      <LoginFormContainer />
+    </>
+  );
 }

@@ -1,3 +1,23 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  button {
+    @apply rounded-lg bg-white px-6 py-3 text-xs;
+  }
+
+  button:hover {
+    @apply bg-green text-white transition-colors duration-200 ease-in;
+  }
+}
+
+@layer components {
+  .custom-input {
+    @apply bg-white-opaque rounded-lg border-[1px] border-solid border-transparent px-6 py-3 text-xs text-white;
+  }
+
+  .custom-input:focus {
+    @apply border-green border-solid outline-none;
+  }
+}
