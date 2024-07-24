@@ -1,3 +1,13 @@
-import { create } from "zustand";
+import { create } from 'zustand';
 
-const useAuthStore = create((set) => {});
+export interface AuthState {
+  accessToken: string;
+  setAccessToken: (token: string) => void;
+}
+
+const useAuthStore = create<AuthState>((set) => ({
+  accessToken: '',
+  setAccessToken: (token: string) => set({ accessToken: token }),
+}));
+
+export default useAuthStore;

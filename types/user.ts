@@ -3,3 +3,8 @@ export interface SignUpData {
   password: string;
   role?: string;
 }
+
+export interface LoginData {
+  email: string;
+  password: string;
+}

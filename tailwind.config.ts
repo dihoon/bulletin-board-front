@@ -24,6 +24,7 @@ const config: Config = {
       },
       colors: {
         green: '#298e12',
+        'light-green': '#90EE90A0',
         'white-opaque': 'rgba(255,255,255, 0.24)',
       },
     },

@@ -1,5 +1,8 @@
+import ClientProvider from '@/components/ClientProvider';
+import Header from '@/components/Header';
 import type { Metadata } from 'next';
 import { Nunito } from 'next/font/google';
+import Image from 'next/image';
 import './globals.css';
 
 const nunito = Nunito({ subsets: ['latin'] });
@@ -16,7 +19,21 @@ export default function RootLayout({
 }>) {
   return (
     <html>
-      <body className={nunito.className}>{children}</body>
+      <body
+        className={`${nunito.className} flex h-lvh flex-col overflow-y-auto`}
+      >
+        <Image
+          className="-z-10 brightness-50 filter"
+          src="/images/tree.jpg"
+          alt="배경화면"
+          fill
+          objectFit="cover"
+        />
+        <ClientProvider>
+          <Header />
+        </ClientProvider>
+        <div className="flex-1 overflow-hidden">{children}</div>
+      </body>
     </html>
   );
 }
