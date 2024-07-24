@@ -1,5 +1,6 @@
 'use client';
 
+import { PostPaginationParams } from '@/types/post';
 import {
   keepPreviousData,
   useQuery,
@@ -7,13 +8,7 @@ import {
 } from '@tanstack/react-query';
 import axiosInstance from './axiosInstance';
 
-interface PostParams {
-  page: number;
-  size: number;
-  sort?: string;
-}
-
-export const getPosts = async (params: PostParams) => {
+export const getPosts = async (params: PostPaginationParams) => {
   const { page, size, sort } = params;
   const response = await axiosInstance.get(
     `/api/posts/?page=${page}&size=${size}${sort ? `&sort=${sort}` : ''}`
@@ -22,7 +17,7 @@ export const getPosts = async (params: PostParams) => {
 };
 
 export const usePostsQuery = (
-  params: PostParams
+  params: PostPaginationParams
 ): UseQueryResult<any, Error> => {
   return useQuery({
     queryKey: ['posts', params],

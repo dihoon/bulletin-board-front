@@ -1,24 +1,31 @@
 'use client';
 
-import { getPosts, usePostsQuery } from '@/api/postApi';
+import { getUserPosts, useUserPostsQuery } from '@/api/userApi';
 import PostList from '@/components/PostList';
 import useIntersectionObserver from '@/hooks/useIntersectionObserver';
+import useAuthStore from '@/store/useAuthStore';
 import { PostData } from '@/types/post';
 import { useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 
-export default function PostListContainer() {
+export default function UserPostsContainer() {
   const [page, setPage] = useState(0);
   const [posts, setPosts] = useState<PostData[]>([]);
   const [hasMore, setHasMore] = useState(true);
-  const { data, isFetching, isError } = usePostsQuery({ page, size: 10 });
+  const queryClient = useQueryClient();
+  const accessToken = useAuthStore((state) => state.accessToken);
+
+  const isLogined = !!accessToken;
+
+  const { data, isFetching } = useUserPostsQuery({
+    page,
+    size: 10,
+  });
 
   const postData = data?.content;
 
-  const queryClient = useQueryClient();
-
   const loadMorePosts = () => {
-    if (hasMore && !isFetching) {
+    if (hasMore && !isFetching && isLogined) {
       setPage((prevPage) => prevPage + 1);
     }
   };
@@ -42,10 +49,14 @@ export default function PostListContainer() {
     if (hasMore) {
       queryClient.prefetchQuery({
         queryKey: ['posts', { page: page + 1, size: 10 }],
-        queryFn: () => getPosts({ page: page + 1, size: 10 }),
+        queryFn: () => getUserPosts({ page: page + 1, size: 10 }),
       });
     }
-  }, [postData, page, queryClient, hasMore]);
+  }, [page, queryClient, hasMore]);
 
-  return <PostList observerRef={observerRef} posts={posts} />;
+  return (
+    <div className="flex-[3_1_0]">
+      <PostList observerRef={observerRef} posts={posts} />
+    </div>
+  );
 }

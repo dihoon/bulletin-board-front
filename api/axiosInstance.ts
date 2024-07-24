@@ -35,7 +35,7 @@ axiosInstance.interceptors.response.use(
 
       try {
         const response = await axios.post(
-          '/api/auth/refresh',
+          `${process.env.NEXT_PUBLIC_API_URL || process.env.API_URL}/api/auth/refresh`,
           {},
           {
             withCredentials: true,

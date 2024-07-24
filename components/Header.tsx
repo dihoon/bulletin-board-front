@@ -12,7 +12,7 @@ const Header = () => {
 
   const authStore = useAuthStore((state) => state);
 
-  const { accessToken, isSuccess, isError } = useRefreshToken();
+  const { isSuccess, isError } = useRefreshToken();
 
   const { mutate } = useLogoutMutation(router);
 

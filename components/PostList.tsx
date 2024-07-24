@@ -16,10 +16,7 @@ export default function PostList(props: Props) {
         posts?.map((post, index) => {
           return <Post key={index} {...post} />;
         })}
-      <div
-        ref={observerRef}
-        style={{ height: '100px', backgroundColor: 'lightblue' }}
-      ></div>
+      <div ref={observerRef} style={{ height: '100px' }}></div>
     </div>
   );
 }

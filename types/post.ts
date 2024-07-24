@@ -4,3 +4,9 @@ export interface PostData {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface PostPaginationParams {
+  page: number;
+  size: number;
+  sort?: string;
+}
