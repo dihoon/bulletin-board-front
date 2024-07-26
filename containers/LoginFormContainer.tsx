@@ -44,7 +44,7 @@ export default function LoginFormContainer() {
         {...register('password', { required: '비밀번호를 입력하세요.' })}
         className="custom-input mt-4"
       />
-      <button className="mt-4">로그인</button>
+      <button className="custom-button mt-4">로그인</button>
     </form>
   );
 }

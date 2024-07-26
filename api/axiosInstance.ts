@@ -43,7 +43,7 @@ axiosInstance.interceptors.response.use(
         );
 
         if (response.status === 200) {
-          const newAccessToken = response.data.accessToken;
+          const newAccessToken = response.data.token;
           authStore.setAccessToken(newAccessToken);
 
           axiosInstance.defaults.headers.common['Authorization'] =

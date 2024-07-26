@@ -1,21 +1,30 @@
 'use client';
 
-import { getPosts, usePostsQuery } from '@/api/postApi';
+import { usePostsQuery } from '@/api/postApi';
 import PostList from '@/components/PostList';
+import routes from '@/constants/routes';
 import useIntersectionObserver from '@/hooks/useIntersectionObserver';
 import { PostData } from '@/types/post';
-import { useQueryClient } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 export default function PostListContainer() {
   const [page, setPage] = useState(0);
   const [posts, setPosts] = useState<PostData[]>([]);
   const [hasMore, setHasMore] = useState(true);
-  const { data, isFetching, isError } = usePostsQuery({ page, size: 10 });
+  const { data, isFetching, refetch } = usePostsQuery({ page, size: 10 });
 
   const postData = data?.content;
 
-  const queryClient = useQueryClient();
+  const router = useRouter();
+
+  const handleClickPost = (postId: number) => {
+    router.push(`${routes.list}/${postId}`);
+  };
+
+  useEffect(() => {
+    console.log('page : ', page);
+  }, [page]);
 
   const loadMorePosts = () => {
     if (hasMore && !isFetching) {
@@ -29,23 +38,24 @@ export default function PostListContainer() {
   });
 
   useEffect(() => {
-    if (postData) {
-      setPosts((prevPosts) => [...prevPosts, ...postData]);
-
-      if (postData.length < 10) {
-        setHasMore(false);
-      }
+    if (hasMore) {
+      refetch();
     }
-  }, [postData]);
+  }, [page]);
 
   useEffect(() => {
-    if (hasMore) {
-      queryClient.prefetchQuery({
-        queryKey: ['posts', { page: page + 1, size: 10 }],
-        queryFn: () => getPosts({ page: page + 1, size: 10 }),
-      });
-    }
-  }, [postData, page, queryClient, hasMore]);
+    if (postData) {
+      setPosts((prev) => [...prev, ...postData]);
 
-  return <PostList observerRef={observerRef} posts={posts} />;
+      if (postData.length < 10) setHasMore(false);
+    }
+  }, [data]);
+
+  return (
+    <PostList
+      observerRef={observerRef}
+      posts={posts}
+      onClick={handleClickPost}
+    />
+  );
 }

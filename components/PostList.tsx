@@ -5,6 +5,7 @@ import Post from './Post';
 interface Props {
   posts: PostData[];
   observerRef: MutableRefObject<HTMLDivElement | null>;
+  onClick?: (postId: number) => void;
 }
 
 export default function PostList(props: Props) {
@@ -14,9 +15,15 @@ export default function PostList(props: Props) {
     <div className="post-list-container">
       {Array.isArray(posts) &&
         posts?.map((post, index) => {
-          return <Post key={index} {...post} />;
+          return (
+            <Post
+              key={index}
+              {...post}
+              onClick={() => props.onClick && props.onClick(post.postId)}
+            />
+          );
         })}
-      <div ref={observerRef} style={{ height: '100px' }}></div>
+      <div ref={observerRef} />
     </div>
   );
 }

@@ -10,13 +10,15 @@ import { useCallback } from 'react';
 const Header = () => {
   const router = useRouter();
 
-  const authStore = useAuthStore((state) => state);
+  const isLogined = useAuthStore((state) => !!state.accessToken);
+
+  console.log(useAuthStore());
+
+  console.log('isLogined : ', isLogined);
 
   const { isSuccess, isError } = useRefreshToken();
 
   const { mutate } = useLogoutMutation(router);
-
-  const isLogined = !!authStore.accessToken;
 
   const handleClickMenu = useCallback((menu: String) => {
     router.push(`${menu}`);
@@ -28,7 +30,8 @@ const Header = () => {
     }
   }, []);
 
-  if (!isSuccess && !isError) return <div className="header-container" />;
+  if (!isSuccess && !isError && !isLogined)
+    return <div className="header-container" />;
 
   return (
     <div className="header-container">

@@ -1,26 +1,35 @@
 'use client';
 
-import { getUserPosts, useUserPostsQuery } from '@/api/userApi';
+import { useUserPostsQuery } from '@/api/userApi';
 import PostList from '@/components/PostList';
+import routes from '@/constants/routes';
 import useIntersectionObserver from '@/hooks/useIntersectionObserver';
 import useAuthStore from '@/store/useAuthStore';
 import { PostData } from '@/types/post';
-import { useQueryClient } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 export default function UserPostsContainer() {
   const [page, setPage] = useState(0);
   const [posts, setPosts] = useState<PostData[]>([]);
   const [hasMore, setHasMore] = useState(true);
-  const queryClient = useQueryClient();
-  const accessToken = useAuthStore((state) => state.accessToken);
+  const isLogined = useAuthStore((state) => !!state.accessToken);
 
-  const isLogined = !!accessToken;
+  const router = useRouter();
 
-  const { data, isFetching } = useUserPostsQuery({
-    page,
-    size: 10,
-  });
+  const handleClickPost = (postId: number) => {
+    router.push(`${routes.list}/${postId}`);
+  };
+
+  console.log('포스트 : ', posts);
+
+  const { data, isFetching, refetch } = useUserPostsQuery(
+    {
+      page,
+      size: 10,
+    },
+    { enabled: isLogined }
+  );
 
   const postData = data?.content;
 
@@ -36,27 +45,26 @@ export default function UserPostsContainer() {
   });
 
   useEffect(() => {
-    if (postData) {
-      setPosts((prevPosts) => [...prevPosts, ...postData]);
-
-      if (postData.length < 10) {
-        setHasMore(false);
-      }
+    if (hasMore) {
+      refetch();
     }
-  }, [postData]);
+  }, [page]);
 
   useEffect(() => {
-    if (hasMore) {
-      queryClient.prefetchQuery({
-        queryKey: ['posts', { page: page + 1, size: 10 }],
-        queryFn: () => getUserPosts({ page: page + 1, size: 10 }),
-      });
+    if (postData) {
+      setPosts((prev) => [...prev, ...postData]);
+
+      if (postData.length < 10) setHasMore(false);
     }
-  }, [page, queryClient, hasMore]);
+  }, [data]);
 
   return (
     <div className="flex-[3_1_0]">
-      <PostList observerRef={observerRef} posts={posts} />
+      <PostList
+        observerRef={observerRef}
+        posts={posts}
+        onClick={handleClickPost}
+      />
     </div>
   );
 }

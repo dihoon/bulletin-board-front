@@ -59,7 +59,7 @@ export default function SignUpFormContainer() {
         })}
         className="custom-input mt-4"
       />
-      <button className="mt-4">회원가입</button>
+      <button className="custom-button mt-4">회원가입</button>
     </form>
   );
 }

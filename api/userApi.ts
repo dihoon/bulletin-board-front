@@ -2,8 +2,8 @@
 
 import { PostPaginationParams } from '@/types/post';
 import {
-  keepPreviousData,
   useQuery,
+  UseQueryOptions,
   UseQueryResult,
 } from '@tanstack/react-query';
 import axiosInstance from './axiosInstance';
@@ -13,12 +13,16 @@ export const getUserInfo = async () => {
   return response.data;
 };
 
-export const useUserInfoQuery = (): UseQueryResult<any, Error> => {
-  return useQuery({
+export const useUserInfoQuery = (
+  options?: Partial<UseQueryOptions>
+): UseQueryResult<any, Error> => {
+  const defaultOptions: UseQueryOptions<any, Error> = {
     queryKey: ['user'],
     queryFn: () => getUserInfo(),
     select: (data) => data.data,
-  });
+  };
+
+  return useQuery({ ...defaultOptions, ...options });
 };
 
 export const getUserPosts = async (params: PostPaginationParams) => {
@@ -30,12 +34,15 @@ export const getUserPosts = async (params: PostPaginationParams) => {
 };
 
 export const useUserPostsQuery = (
-  params: PostPaginationParams
+  params: PostPaginationParams,
+  options?: Partial<UseQueryOptions>
 ): UseQueryResult<any, Error> => {
-  return useQuery({
-    queryKey: ['posts', params],
+  const defaultOptions: UseQueryOptions<any, Error> = {
+    queryKey: ['post', params],
     queryFn: () => getUserPosts(params),
-    placeholderData: keepPreviousData,
-    select: (data) => data.data,
-  });
+    select: (data) => data?.data,
+    enabled: false,
+  };
+
+  return useQuery({ ...defaultOptions, ...options });
 };

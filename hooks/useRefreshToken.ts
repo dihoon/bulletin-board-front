@@ -3,7 +3,8 @@ import useAuthStore from '@/store/useAuthStore';
 import { useEffect } from 'react';
 
 export default function useRefreshToken() {
-  const authState = useAuthStore((state) => state);
+  const state = useAuthStore.getState();
+  const accessToken = useAuthStore((state) => state.accessToken);
 
   const { data, mutate, isSuccess, isError } = useRefreshAceesTokenMutation();
 
@@ -13,7 +14,8 @@ export default function useRefreshToken() {
 
   useEffect(() => {
     if (isSuccess && data) {
-      authState.setAccessToken(data.accessToken);
+      state.setEmail(data.email);
+      state.setAccessToken(accessToken);
     }
   }, [data]);
 

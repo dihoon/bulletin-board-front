@@ -1,7 +1,7 @@
 'use client';
 
 import useAuthStore from '@/store/useAuthStore';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 import { LoginData, SignUpData } from '../types';
 import axiosInstance from './axiosInstance';
@@ -34,6 +34,7 @@ export const useLoginMutation = (router: AppRouterInstance) => {
     mutationFn: (loginData: LoginData) => login(loginData),
     onSuccess: (res) => {
       alert('로그인 성공!');
+      authStore.setEmail(res.email);
       authStore.setAccessToken(res.token);
       router.push('/');
     },
@@ -48,11 +49,13 @@ const logout = async () => {
 
 export const useLogoutMutation = (router: AppRouterInstance) => {
   const authStore = useAuthStore();
+  const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: logout,
-    onSuccess: () => {
-      authStore.setAccessToken('');
+    onSuccess: async () => {
+      queryClient.clear();
+      authStore.reset();
       router.push('/');
     },
   });
@@ -64,10 +67,14 @@ const refreshAccessToken = async () => {
 };
 
 export const useRefreshAceesTokenMutation = () => {
+  const authStore = useAuthStore();
   return useMutation({
     mutationFn: refreshAccessToken,
-    onSuccess: () => {
+    onSuccess: (res) => {
       console.log('액세스 토큰 재발급');
+      console.log('리프레시 res : ', res);
+      authStore.setEmail(res.email);
+      authStore.setAccessToken(res.token);
     },
     onError: (error: any) => console.log('액세스 토큰 재발급 실패 : ', error),
   });
