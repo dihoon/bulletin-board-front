@@ -1,8 +1,9 @@
 'use client';
 
 import { PostData } from '@/types/post';
+import { EditorContent, useEditor } from '@tiptap/react';
+import StarterKit from '@tiptap/starter-kit';
 import dayjs from 'dayjs';
-import { useState } from 'react';
 
 interface Props extends PostData {
   onClick?: () => void;
@@ -10,13 +11,19 @@ interface Props extends PostData {
 }
 
 export default function Post(props: Props) {
-  const [title, setTitle] = useState(props.title);
-  const [content, setContent] = useState(props.content);
+  const { title, content } = props;
 
   const createDate = dayjs(props.createdAt).format('YYYY/MM/DD HH:mm');
   const updateDate = dayjs(props.updatedAt).format('YYYY/MM/DD HH:mm');
 
   const isUpdated = createDate != updateDate;
+
+  const editor = useEditor({
+    extensions: [StarterKit],
+    content: content || '',
+    editable: false,
+    immediatelyRender: false,
+  });
 
   return (
     <div className="post-container" onClick={props.onClick}>
@@ -25,9 +32,10 @@ export default function Post(props: Props) {
         <div>작성됨 : {createDate}</div>
         {isUpdated && <div>수정됨 : {updateDate}</div>}
       </div>
-      <div
-        className="post-content post-content-view font-medium"
-        dangerouslySetInnerHTML={{ __html: content }}
+      <EditorContent
+        className="post-content-view line-clamp-[10] overflow-hidden"
+        editor={editor}
+        content={props.content}
       />
     </div>
   );

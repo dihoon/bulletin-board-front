@@ -23,7 +23,7 @@ export default function PostList(props: Props) {
             />
           );
         })}
-      <div ref={observerRef} />
+      <div ref={observerRef} className="h-1" />
     </div>
   );
 }

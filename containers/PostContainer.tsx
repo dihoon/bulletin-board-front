@@ -9,7 +9,10 @@ import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
 export default function PostContainer() {
-  const { data, isLoading, refetch } = usePostsQuery({ page: 0, size: 3 });
+  const { data, isFetched, refetch } = usePostsQuery({
+    page: 0,
+    size: 3,
+  });
 
   const posts = data?.content;
 
@@ -24,21 +27,26 @@ export default function PostContainer() {
   }, []);
 
   return (
-    <div className="flex min-h-[500px] w-full max-w-[1080px] gap-4">
-      {isLoading &&
-        Array.from({ length: 3 }).map((_, index) => (
-          <SkeletonPost key={index} />
-        ))}
-      {Array.isArray(posts) &&
-        posts?.map((post: PostData, index: number) => {
-          return (
-            <Post
-              key={index}
-              {...post}
-              onClick={() => handleClickPost(post.postId)}
-            />
-          );
-        })}
+    <div className="custom-container">
+      <div className="flex flex-col items-center justify-center">
+        <div className="mb-10 text-6xl font-bold text-white">최신글</div>
+        <div className="flex w-full flex-col gap-4 lg:flex-row">
+          {!isFetched &&
+            Array.from({ length: 3 }).map((_, index) => {
+              return <SkeletonPost key={index} />;
+            })}
+          {Array.isArray(posts) &&
+            posts?.map((post: PostData, index: number) => {
+              return (
+                <Post
+                  key={index}
+                  {...post}
+                  onClick={() => handleClickPost(post.postId)}
+                />
+              );
+            })}
+        </div>
+      </div>
     </div>
   );
 }

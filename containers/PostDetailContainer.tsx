@@ -23,7 +23,6 @@ export default function PostDetailContainer(props: Props) {
   const { register, control, handleSubmit, reset } = useForm<PostUpdateData>();
   const [isEditable, setIsEditable] = useState(false);
   const isYours = useAuthStore.getState().email == data?.userEmail;
-  console.log('isYours : ', isYours);
   const updatePostMutation = useUpdatePostMutation();
   const deletePostMutation = useDeletePostMutation(router);
 
@@ -66,44 +65,48 @@ export default function PostDetailContainer(props: Props) {
 
   return (
     <form
-      className="flex h-full justify-center"
+      className="custom-container h-full max-h-[calc(100vh-72px)] min-h-[500px]"
       onSubmit={handleSubmit(onSubmit, onError)}
     >
-      <div className="box-content flex w-full max-w-[1080px] flex-col px-10 pb-10">
-        {isYours && (
-          <div className="mb-4 flex justify-end gap-3">
-            {!isEditable && (
-              <button
-                type="button"
-                className="custom-button"
-                onClick={handlClickEdit}
-              >
-                수정
-              </button>
-            )}
-            {isEditable && (
-              <>
-                <button type="submit" className="custom-button">
-                  저장
-                </button>
+      <div className="flex h-full flex-col">
+        <div className="mb-4 flex items-center justify-between">
+          <div className="text-white">작성자 : {data?.userEmail}</div>
+          {isYours && (
+            <div className="flex gap-3">
+              {!isEditable && (
                 <button
                   type="button"
                   className="custom-button"
-                  onClick={handleCancel}
+                  onClick={handlClickEdit}
                 >
-                  취소
+                  수정
                 </button>
-              </>
-            )}
-            <button
-              type="button"
-              className="custom-button"
-              onClick={handleDelete}
-            >
-              삭제
-            </button>
-          </div>
-        )}
+              )}
+              {isEditable && (
+                <>
+                  <button type="submit" className="custom-button">
+                    저장
+                  </button>
+                  <button
+                    type="button"
+                    className="custom-button"
+                    onClick={handleCancel}
+                  >
+                    취소
+                  </button>
+                </>
+              )}
+              <button
+                type="button"
+                className="custom-button"
+                onClick={handleDelete}
+              >
+                삭제
+              </button>
+            </div>
+          )}
+        </div>
+
         <input
           className="post-title-view mb-4"
           placeholder="제목"

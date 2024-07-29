@@ -12,10 +12,6 @@ const Header = () => {
 
   const isLogined = useAuthStore((state) => !!state.accessToken);
 
-  console.log(useAuthStore());
-
-  console.log('isLogined : ', isLogined);
-
   const { isSuccess, isError } = useRefreshToken();
 
   const { mutate } = useLogoutMutation(router);
@@ -34,7 +30,7 @@ const Header = () => {
     return <div className="header-container" />;
 
   return (
-    <div className="header-container">
+    <div className="header-container sticky top-0 z-10 backdrop-blur-sm">
       <li onClick={() => handleClickMenu('/')}>홈</li>
       {isLogined && (
         <>

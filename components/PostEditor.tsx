@@ -18,6 +18,7 @@ export default function PostEditor(props: Props) {
     onUpdate: ({ editor, transaction }) => {
       props.onChange(editor.getHTML());
     },
+    immediatelyRender: false,
   });
 
   const handleClick = () => {
@@ -38,7 +39,7 @@ export default function PostEditor(props: Props) {
   return (
     <EditorContent
       onClick={handleClick}
-      className="post-form-container post-content-view custom-scrollbar"
+      className="post-editor-container post-content-view"
       editor={editor}
     />
   );

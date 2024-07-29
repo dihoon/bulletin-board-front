@@ -23,7 +23,7 @@ export default function LoginFormContainer() {
 
   return (
     <form
-      className="flex w-full max-w-[370px] flex-col"
+      className="flex w-full max-w-[350px] flex-col"
       onSubmit={handleSubmit(onSubmit, onError)}
     >
       <input

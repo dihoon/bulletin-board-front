@@ -90,10 +90,14 @@ export const useUpdatePostMutation = () => {
       postId: string;
       updateData: PostUpdateData;
     }) => updatePost(postId, updateData),
-    onSuccess: (data, variables) => {
+    onSuccess: async (data, variables) => {
       alert('저장 성공');
-      queryClient.invalidateQueries({
+      await queryClient.invalidateQueries({
         queryKey: ['posts'],
+        refetchType: 'all',
+      });
+      await queryClient.invalidateQueries({
+        queryKey: ['post'],
         refetchType: 'all',
       });
     },

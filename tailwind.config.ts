@@ -8,11 +8,18 @@ const config: Config = {
     './app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
+    container: {
+      center: true,
+      padding: '24px',
+      screens: {
+        DEFAULT: '1128px',
+      },
+    },
     extend: {
       screens: {
-        sm: '480px',
-        md: '720px',
-        lg: '1024px',
+        sm: '350px',
+        md: '768px',
+        lg: '1072px',
         xl: '1280px',
         '2xl': '1536px',
       },

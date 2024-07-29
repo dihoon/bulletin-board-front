@@ -25,10 +25,10 @@ export default function PostAddContainer() {
 
   return (
     <form
-      className="flex h-full justify-center"
+      className="custom-container flex h-full justify-center"
       onSubmit={handleSubmit(onSubmit, onError)}
     >
-      <div className="box-content flex w-full max-w-[1080px] flex-col gap-4 px-10 pb-10">
+      <div className="box-content flex w-full max-w-[1080px] flex-col gap-4">
         <button type="submit" className="custom-button self-end">
           글 작성
         </button>

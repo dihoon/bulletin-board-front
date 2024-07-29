@@ -21,8 +21,6 @@ export default function UserPostsContainer() {
     router.push(`${routes.list}/${postId}`);
   };
 
-  console.log('포스트 : ', posts);
-
   const { data, isFetching, refetch } = useUserPostsQuery(
     {
       page,
@@ -59,7 +57,7 @@ export default function UserPostsContainer() {
   }, [data]);
 
   return (
-    <div className="flex-[3_1_0]">
+    <div className="flex-[3_1_0] overflow-hidden overflow-y-auto">
       <PostList
         observerRef={observerRef}
         posts={posts}

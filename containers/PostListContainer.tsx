@@ -22,10 +22,6 @@ export default function PostListContainer() {
     router.push(`${routes.list}/${postId}`);
   };
 
-  useEffect(() => {
-    console.log('page : ', page);
-  }, [page]);
-
   const loadMorePosts = () => {
     if (hasMore && !isFetching) {
       setPage((prevPage) => prevPage + 1);

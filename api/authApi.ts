@@ -38,7 +38,7 @@ export const useLoginMutation = (router: AppRouterInstance) => {
       authStore.setAccessToken(res.token);
       router.push('/');
     },
-    onError: (error: any) => alert(`로그인 실패 : ${error}`),
+    onError: (error: any) => alert(`잘못된 계정 정보입니다.`),
   });
 };
 
@@ -71,8 +71,6 @@ export const useRefreshAceesTokenMutation = () => {
   return useMutation({
     mutationFn: refreshAccessToken,
     onSuccess: (res) => {
-      console.log('액세스 토큰 재발급');
-      console.log('리프레시 res : ', res);
       authStore.setEmail(res.email);
       authStore.setAccessToken(res.token);
     },
