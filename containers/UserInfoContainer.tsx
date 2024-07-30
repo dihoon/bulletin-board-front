@@ -29,7 +29,7 @@ export default function UserInfoContainer() {
   if (!isLogined) return <div>loading...</div>;
 
   return (
-    <div className="mb-6 mr-2 flex flex-col px-6 lg:m-0 lg:flex-1">
+    <div className="mb-6 flex flex-col px-6 lg:m-0 lg:flex-1">
       <div className="user-info-container">
         <button className="custom-button" onClick={handleAddPost}>
           게시글 작성

@@ -117,7 +117,7 @@
   .post-list-container {
     display: grid;
     width: 100%;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 24px;
     padding: 0 24px 24px;
 
@@ -304,6 +304,10 @@
       width: calc(100% + 20px);
       height: calc(100% + 20px);
       border: solid 1px white;
+    }
+
+    .scrollbar-invisible {
+      scrollbar-width: none;
     }
   }
 }

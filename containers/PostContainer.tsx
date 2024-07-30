@@ -30,7 +30,7 @@ export default function PostContainer() {
     <div className="custom-container">
       <div className="flex flex-col items-center justify-center">
         <div className="mb-10 text-6xl font-bold text-white">최신글</div>
-        <div className="flex w-full flex-col gap-4 lg:flex-row">
+        <div className="grid min-h-[500px] w-full grid-cols-1 flex-col gap-4 lg:grid-cols-3 lg:flex-row">
           {!isFetched &&
             Array.from({ length: 3 }).map((_, index) => {
               return <SkeletonPost key={index} />;

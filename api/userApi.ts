@@ -38,7 +38,7 @@ export const useUserPostsQuery = (
   options?: Partial<UseQueryOptions>
 ): UseQueryResult<any, Error> => {
   const defaultOptions: UseQueryOptions<any, Error> = {
-    queryKey: ['post', params],
+    queryKey: ['posts', params],
     queryFn: () => getUserPosts(params),
     select: (data) => data?.data,
     enabled: false,

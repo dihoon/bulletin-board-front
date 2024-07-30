@@ -57,7 +57,7 @@ export default function UserPostsContainer() {
   }, [data]);
 
   return (
-    <div className="flex-[3_1_0] overflow-hidden overflow-y-auto">
+    <div className="scrollbar-invisible flex-[3_1_0] overflow-hidden overflow-y-auto">
       <PostList
         observerRef={observerRef}
         posts={posts}
