@@ -18,7 +18,7 @@ export const useSignUpMutation = (router: AppRouterInstance) => {
       alert('회원 가입 성공!');
       router.push('/login');
     },
-    onError: (error: any) => alert(`회원가입 실패 : ${error}`),
+    onError: (error: any) => alert(`회원가입 실패`),
   });
 };
 
@@ -53,7 +53,7 @@ export const useLogoutMutation = (router: AppRouterInstance) => {
 
   return useMutation({
     mutationFn: logout,
-    onSuccess: async () => {
+    onSuccess: () => {
       queryClient.clear();
       authStore.reset();
       router.push('/');
@@ -74,6 +74,25 @@ export const useRefreshAceesTokenMutation = () => {
       authStore.setEmail(res.email);
       authStore.setAccessToken(res.token);
     },
-    onError: (error: any) => console.log('액세스 토큰 재발급 실패 : ', error),
+    onError: (error: any) => console.error('액세스 토큰 재발급 실패 : ', error),
+  });
+};
+
+const deleteAccount = async () => {
+  const response = await axiosInstance.delete(`/api/auth`);
+  return response.data;
+};
+
+export const useDeleteAccountMutation = () => {
+  const authStore = useAuthStore();
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: deleteAccount,
+    onSuccess: () => {
+      queryClient.clear();
+      authStore.reset();
+      alert('회원 탈퇴 성공!');
+    },
+    onError: () => alert('회원 탈퇴 실패'),
   });
 };

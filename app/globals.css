@@ -21,9 +21,14 @@
   background-color: var(--scrollbar-thumb-color);
 }
 
+*:disabled {
+  opacity: 1;
+  -webkit-text-fill-color: inherit;
+}
+
 @layer components {
   .custom-button {
-    @apply rounded-lg bg-white px-6 py-3 text-xs;
+    @apply rounded-lg bg-white px-5 py-3;
   }
 
   .custom-button:hover {
@@ -53,8 +58,8 @@
 
   .post-container {
     display: flex;
-    width: 100%;
     flex-direction: column;
+    overflow: hidden;
     color: black;
     border-radius: 8px;
     border: 2px solid white;
@@ -72,6 +77,7 @@
 
   .post-title {
     font-size: 36px;
+    overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
@@ -92,14 +98,6 @@
     white-space: pre-wrap;
     overflow-y: auto;
     font-size: 18px;
-
-    /* &::-webkit-scrollbar {
-      width: 10px;
-    }
-
-    &::-webkit-scrollbar-thumb {
-      background-color: rgba(255, 255, 255, 0.5);
-    } */
   }
 
   .header-container {
@@ -148,6 +146,8 @@
   }
 
   .post-editor-container {
+    display: flex;
+    flex-direction: column;
     background-color: rgba(255, 255, 255, 0.5);
     border-radius: 8px;
     border: 2px solid white;
@@ -169,14 +169,14 @@
     .post-title-view {
       display: flex;
       align-items: center;
-      background-color: rgba(255, 255, 255, 0.5);
-      border-radius: 8px;
+      background-color: transparent;
       font-weight: 600;
-      border: 2px solid white;
       width: 100%;
-      font-size: 48px;
-      padding: 0 48px;
+      font-size: 24px;
       outline: none;
+      resize: none;
+      word-break: break-all;
+      max-height: fit-content;
 
       &::placeholder {
         color: black;
@@ -184,8 +184,13 @@
     }
 
     .post-content-view {
+      flex: 1;
       * {
         font-weight: 400;
+      }
+
+      div {
+        outline: none;
       }
 
       ul,
@@ -260,6 +265,7 @@
         color: black;
         margin: 1.5rem 0;
         padding: 0.75rem 1rem;
+        overflow: hidden;
 
         code {
           background: none;
@@ -279,6 +285,25 @@
         font-weight: 600;
         color: greenyellow;
       }
+    }
+
+    .hover-effect {
+      position: relative;
+      transition: border 0.5s;
+    }
+
+    .hover-effect:hover::after {
+      display: block;
+      content: '';
+      position: absolute;
+      z-index: -1;
+      top: -10px;
+      left: -10px;
+      right: -10px;
+      bottom: -10px;
+      width: calc(100% + 20px);
+      height: calc(100% + 20px);
+      border: solid 1px white;
     }
   }
 }

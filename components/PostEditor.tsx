@@ -6,6 +6,7 @@ interface Props {
   content?: string;
   onChange: (html: string) => void;
   editable?: boolean;
+  className?: string;
 }
 
 export default function PostEditor(props: Props) {
@@ -19,6 +20,7 @@ export default function PostEditor(props: Props) {
       props.onChange(editor.getHTML());
     },
     immediatelyRender: false,
+    editable: props.editable,
   });
 
   const handleClick = () => {
@@ -34,12 +36,12 @@ export default function PostEditor(props: Props) {
       editor.commands.focus();
       editor.commands.setTextSelection(endPos);
     }
-  }, [props.editable, editor]);
+  }, [props.editable]);
 
   return (
     <EditorContent
       onClick={handleClick}
-      className="post-editor-container post-content-view"
+      className={`post-content-view ${props.className}`}
       editor={editor}
     />
   );

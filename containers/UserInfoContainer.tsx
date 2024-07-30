@@ -1,5 +1,6 @@
 'use client';
 
+import { useDeleteAccountMutation } from '@/api/authApi';
 import { useUserInfoQuery } from '@/api/userApi';
 import useAuthStore from '@/store/useAuthStore';
 import { useRouter } from 'next/navigation';
@@ -8,12 +9,21 @@ export default function UserInfoContainer() {
   const router = useRouter();
   const isLogined = useAuthStore((state) => !!state.accessToken);
 
-  const { data, isLoading } = useUserInfoQuery({
+  const { data } = useUserInfoQuery({
     enabled: isLogined,
   });
 
+  const deleteAccountMutation = useDeleteAccountMutation();
+
   const handleAddPost = () => {
     router.push('/list/new');
+  };
+
+  const handleDeleteAccount = () => {
+    if (confirm('정말 회원 탈퇴하시겠습니까?')) {
+      deleteAccountMutation.mutate();
+      router.push('/');
+    }
   };
 
   if (!isLogined) return <div>loading...</div>;
@@ -24,7 +34,10 @@ export default function UserInfoContainer() {
         <button className="custom-button" onClick={handleAddPost}>
           게시글 작성
         </button>
-        {data?.email}
+        <button className="custom-button" onClick={handleDeleteAccount}>
+          회원 탈퇴
+        </button>
+        <span className="">{data?.email}</span>
       </div>
     </div>
   );

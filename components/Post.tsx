@@ -26,7 +26,7 @@ export default function Post(props: Props) {
   });
 
   return (
-    <div className="post-container" onClick={props.onClick}>
+    <div className="post-container lg:flex-1" onClick={props.onClick}>
       <div className="post-title font-semibold">{title}</div>
       <div className="post-time mt-4 font-medium">
         <div>작성됨 : {createDate}</div>

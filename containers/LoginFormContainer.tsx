@@ -22,29 +22,32 @@ export default function LoginFormContainer() {
   };
 
   return (
-    <form
-      className="flex w-full max-w-[350px] flex-col"
-      onSubmit={handleSubmit(onSubmit, onError)}
-    >
-      <input
-        type="text"
-        placeholder="이메일"
-        {...register('email', {
-          required: '이메일을 입력하세요.',
-          pattern: {
-            value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-            message: '유효한 이메일이 아닙니다.',
-          },
-        })}
-        className="custom-input"
-      />
-      <input
-        type="password"
-        placeholder="비밀번호"
-        {...register('password', { required: '비밀번호를 입력하세요.' })}
-        className="custom-input mt-4"
-      />
-      <button className="custom-button mt-4">로그인</button>
-    </form>
+    <div className="custom-container flex flex-col items-center">
+      <div className="mb-10 text-60 font-bold text-white">로그인</div>
+      <form
+        className="flex w-full max-w-[350px] flex-col"
+        onSubmit={handleSubmit(onSubmit, onError)}
+      >
+        <input
+          type="text"
+          placeholder="이메일"
+          {...register('email', {
+            required: '이메일을 입력하세요.',
+            pattern: {
+              value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+              message: '유효한 이메일이 아닙니다.',
+            },
+          })}
+          className="custom-input"
+        />
+        <input
+          type="password"
+          placeholder="비밀번호"
+          {...register('password', { required: '비밀번호를 입력하세요.' })}
+          className="custom-input mt-4"
+        />
+        <button className="custom-button mt-4">로그인</button>
+      </form>
+    </div>
   );
 }
