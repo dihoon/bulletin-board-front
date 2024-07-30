@@ -2,7 +2,6 @@
 
 import { usePostsQuery } from '@/api/postApi';
 import Post from '@/components/Post';
-import SkeletonPost from '@/components/SkeletonPost';
 import routes from '@/constants/routes';
 import { PostData } from '@/types/post';
 import { useRouter } from 'next/navigation';
@@ -31,10 +30,6 @@ export default function PostContainer() {
       <div className="flex flex-col items-center justify-center">
         <div className="mb-10 text-6xl font-bold text-white">최신글</div>
         <div className="grid min-h-[500px] w-full grid-cols-1 flex-col gap-4 lg:grid-cols-3 lg:flex-row">
-          {!isFetched &&
-            Array.from({ length: 3 }).map((_, index) => {
-              return <SkeletonPost key={index} />;
-            })}
           {Array.isArray(posts) &&
             posts?.map((post: PostData, index: number) => {
               return (
