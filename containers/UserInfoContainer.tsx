@@ -19,9 +19,9 @@ export default function UserInfoContainer() {
     router.push('/list/new');
   };
 
-  const handleDeleteAccount = () => {
+  const handleDeleteAccount = async () => {
     if (confirm('정말 회원 탈퇴하시겠습니까?')) {
-      deleteAccountMutation.mutate();
+      await deleteAccountMutation.mutateAsync();
       router.push('/');
     }
   };

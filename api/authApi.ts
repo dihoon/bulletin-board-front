@@ -18,7 +18,13 @@ export const useSignUpMutation = (router: AppRouterInstance) => {
       alert('회원 가입 성공!');
       router.push('/login');
     },
-    onError: (error: any) => alert(`회원가입 실패`),
+    onError: (error: any) => {
+      if (error.response.status === 409) {
+        alert('이미 가입된 계정입니다.');
+      } else {
+        alert(`회원가입 실패`);
+      }
+    },
   });
 };
 
