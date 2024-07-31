@@ -53,8 +53,8 @@ export default function PostDetailContainer(props: Props) {
   };
 
   const onSubmit = useCallback(
-    (updateData: PostUpdateData) => {
-      updatePostMutation.mutate({ postId, updateData });
+    async (updateData: PostUpdateData) => {
+      await updatePostMutation.mutateAsync({ postId, updateData });
       setIsEditable(false);
     },
     [postId, updatePostMutation]

@@ -65,6 +65,11 @@ export const useCreatePostMutation = (router: AppRouterInstance) => {
         refetchType: 'all',
         exact: false,
       });
+      await queryClient.invalidateQueries({
+        queryKey: ['post'],
+        refetchType: 'all',
+        exact: false,
+      });
       router.push('/list');
     },
     onError: () => alert('작성 실패'),
