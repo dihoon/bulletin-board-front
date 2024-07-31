@@ -50,7 +50,13 @@ export default function UserPostsContainer() {
 
   useEffect(() => {
     if (postData) {
-      setPosts((prev) => [...prev, ...postData]);
+      setPosts((prev) => {
+        const newPosts = postData.filter(
+          (newPost: PostData) =>
+            !prev.some((prevPost) => prevPost.postId === newPost.postId)
+        );
+        return [...newPosts, ...prev];
+      });
 
       if (postData.length < 10) setHasMore(false);
     }

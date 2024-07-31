@@ -5,15 +5,15 @@ import Post from '@/components/Post';
 import routes from '@/constants/routes';
 import { PostData } from '@/types/post';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 export default function PostContainer() {
-  const [posts, setPosts] = useState<PostData[]>();
-
-  const { data, refetch } = usePostsQuery({
+  const { data, isFetched, refetch } = usePostsQuery({
     page: 0,
     size: 3,
   });
+
+  const posts = data?.content;
 
   const router = useRouter();
 
@@ -24,10 +24,6 @@ export default function PostContainer() {
   useEffect(() => {
     refetch();
   }, []);
-
-  useEffect(() => {
-    setPosts(data?.content);
-  }, [data]);
 
   return (
     <div className="custom-container">
